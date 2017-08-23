@@ -59,16 +59,19 @@ def load_data(cols=None, filename='data/all_data.csv', split=None):
         return data_len, weeks, ts, xs, vweeks, vts, vxs
 
 
-def print_stats(xs, ts, model, title='Stats'):
-    cv = TimeSeriesSplit(5)
-    scores = cross_val_score(model, xs, ts, cv=cv.split(xs))
+def print_stats(xs, ts, model, title='Stats', n_splits=5):
+    cv = TimeSeriesSplit(n_splits)
+    scores = cross_val_score(model, xs, ts, cv=cv.split(xs),
+                             scoring='neg_mean_squared_error')
+    scores = np.sqrt(-scores)
     mean = np.mean(scores)
     std_dev = np.std(scores)
 
     print()
     print(title)
     print('-' * len(title))
-    print('Classifier Scores: ', scores)
+    print('')
+    print('Model Scores: ', scores)
     print('Mean Score: ', mean)
     print('Standard Deviation of Score: ', std_dev)
 
