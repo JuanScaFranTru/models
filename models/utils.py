@@ -29,7 +29,7 @@ def smoothing(xs):
     return xs
 
 
-def load_data(cols=None, filename='all_data.csv', split=None):
+def load_data(cols=None, filename='data/all_data.csv', split=None):
     """Load the training data set.
     Preconditions: 0 <= split <= 1
 
