@@ -103,5 +103,9 @@ ENV/
 # vim backups
 .*~
 
+# stderr and stdout
+*.stderr
+*.stdout
+
 # Data
 *.csv

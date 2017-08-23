@@ -23,8 +23,7 @@ import re
 import subprocess
 import sys
 
-exe = "/home/juansca/Documentos/FaMAF/Publicaciones/NN/models/models/irace/tuning/"
-exe = exe + "SVR.py"
+exe = "./script.py"
 fixed_params = " "
 
 if len(sys.argv) < 5:
