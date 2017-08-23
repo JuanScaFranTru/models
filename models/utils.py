@@ -59,13 +59,19 @@ def load_data(cols=None, filename='data/all_data.csv', split=None):
         return data_len, weeks, ts, xs, vweeks, vts, vxs
 
 
-def print_stats(xs, ts, model, title='Stats', n_splits=5):
+def stats(xs, ts, model, n_splits=5):
     cv = TimeSeriesSplit(n_splits)
     scores = cross_val_score(model, xs, ts, cv=cv.split(xs),
                              scoring='neg_mean_squared_error')
     scores = np.sqrt(-scores)
     mean = np.mean(scores)
     std_dev = np.std(scores)
+
+    return scores, mean, std_dev
+
+
+def print_stats(xs, ts, model, title='Stats', n_splits=5):
+    scores, mean, std_dev = stats(xs, ts, model, n_splits)
 
     print()
     print(title)
@@ -75,11 +81,16 @@ def print_stats(xs, ts, model, title='Stats', n_splits=5):
     print('Mean Score: ', mean)
     print('Standard Deviation of Score: ', std_dev)
 
-    return mean, std_dev
-
 
 def plot_prediction(weeks, xs, ts, model):
     ys_pred = model.predict(xs)
     plt.plot(weeks, ts)
     plt.plot(weeks, ys_pred)
+    plt.show()
+
+
+def plot(xs, ys):
+    plt.plot(xs, ys)
+
+def show():
     plt.show()
