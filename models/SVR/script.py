@@ -1,4 +1,3 @@
-#!/usr/bin/python3
 """Train a model
 
 Usage:
