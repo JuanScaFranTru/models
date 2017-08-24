@@ -27,7 +27,7 @@ elif [ "$1" = "install" ]; then
     install_all;
 
 else
-    echo -e "${bold}Missing argument:";
+    echo -e "Missing argument:";
     echo -e "Usage:"
     echo -e "./installer.sh install|uninstall"
 fi
