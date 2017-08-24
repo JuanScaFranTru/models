@@ -1,8 +1,14 @@
 #! /bin/bash
-declare -a models=('SVR' 'RBF' 'MLPCR')
+declare -a models=('SVR' 'RBF' 'DTR' 'KNNR' 'MLPCR')
 
-pushd () {command pushd "$@" > /dev/null;}
-popd () {command popd "$@" > /dev/null;}
+pushd () {
+    command pushd "$@" > /dev/null;
+}
+popd () {
+    command popd "$@" > /dev/null;
+}
+
+PREFIX_PATH="../models/scripts"
 
 containsElement () {
     local e match="$1"
@@ -12,13 +18,14 @@ containsElement () {
 }
 
 function run {
+    # Please do NOT code like this
     model=$1
-    path="../models/$model"
-    irace --deterministic 1 -p $path/parameters.txt --exec-dir $path/;
+    path="$PREFIX_PATH/$model";
+    irace --deterministic 1 -p $path/parameters.txt --exec-dir $path/ -l ../../param_results/$model.Rdata;
 
     # Output results in a csv
-    pushd $path;
-    program='library("irace"); load("irace.Rdata"); write.csv(getFinalElites(iraceResults, n = 0), file = "results.csv"); q();'
+    pushd ../models/param_results
+    program='library("irace"); load("'$model'.Rdata"); write.csv(getFinalElites(iraceResults, n = 0), file = "'$model'.csv"); q();'
     echo $program | R --no-save > /dev/null;
     popd;
 }
@@ -37,14 +44,15 @@ elif [ "$1" = "ALL" ]; then
     done
 elif [ "$1" = "CLEAR" ]; then
     for model in "${models[@]}"; do
-        path="../models/$model";
+        path="$PREFIX_PATH/$model"
         rm $path/*.stdout $path/*.stderr;
     done
 elif [ "$1" = "CLEARALL" ]; then
     for model in "${models[@]}"; do
-        path="../models/$model";
-        rm $path/*.stdout $path/*.stderr $path/*.Rdata $path/*.csv;
+        path="$PREFIX_PATH/$model"
+        rm $path/*.stdout $path/*.stderr
     done
+    rm ../models/param_results/*.csv ../models/param_results/*.Rdata
 else
     # If the number of arguments is 0 or the argument is incorrect, show help message
     echo -e "${bold}Please, specify a valid model as fisrt argument:";
