@@ -30,7 +30,7 @@ execDir = "/home/juansca/Documentos/FaMAF/Publicaciones/NN/models/models/irace/t
 
 ## The script called for each configuration that launches the program to be
 ## tuned.  See templates/target-runner.tmpl
-targetRunner = "./target-runner.py"
+targetRunner = "./target-runner.sh"
 
 ## Number of times to retry a call to target-runner if the call failed.
 # targetRunnerRetries = 0
